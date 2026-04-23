@@ -1,0 +1,1 @@
+ALTER TABLE `perfumes` ADD `isNewArrival` int DEFAULT 0 NOT NULL;

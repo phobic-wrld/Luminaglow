@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1775153002367,
+      "tag": "0000_flawless_gunslinger",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1775153142780,
+      "tag": "0001_milky_romulus",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1775154661709,
+      "tag": "0002_polite_katie_power",
+      "breakpoints": true
+    }
+  ]
+}
