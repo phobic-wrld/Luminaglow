@@ -18,6 +18,12 @@ const categoryLabels: Record<string, string> = {
   unisex: "Unisex",
 };
 
+const categorySignoffs: Record<string, string> = {
+  women: "\u2665",
+  men: "\u2605",
+  unisex: "\u2726",
+};
+
 const typeLabels: Record<string, string> = {
   arabic: "Arabic",
   designer: "Designer",
@@ -34,8 +40,9 @@ export default function PerfumeCard({ perfume, whatsappNumber }: PerfumeCardProp
       style: "currency",
       currency: "KES",
     });
+    const closingLine = categorySignoffs[perfume.category] ?? "\u2726";
     const message = encodeURIComponent(
-      `Hello! I'm interested in purchasing:\n\n*${perfume.name}*\nCategory: ${categoryLabels[perfume.category]}\nType: ${typeLabels[perfume.type]}\nPrice: ${priceFormatted}\n\n🖼️ Product Image: ${absoluteImageUrl}\n\nPlease let me know about availability and payment details. Thank you! 🌸`
+      `Hello! I'm interested in purchasing:\n\n*${perfume.name}*\nCategory: ${categoryLabels[perfume.category]}\nType: ${typeLabels[perfume.type]}\nPrice: ${priceFormatted}\n\nProduct Image: ${absoluteImageUrl}\n\nPlease let me know about availability and payment details.\n\nThank you! ${closingLine}`
     );
     window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
   };
