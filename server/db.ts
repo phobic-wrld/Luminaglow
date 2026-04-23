@@ -1,15 +1,18 @@
 import "dotenv/config";
-import mysql from "mysql2";
+import mysql, { type Pool, type RowDataPacket, type ResultSetHeader } from "mysql2/promise";
 import { desc, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { perfumes, users, type InsertPerfume, type InsertUser } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
-let pool: mysql.Pool | undefined;
+let pool: Pool | undefined;
 let db: ReturnType<typeof drizzle> | undefined;
+let dbInitPromise: Promise<ReturnType<typeof drizzle>> | undefined;
 
 function parseDatabaseUrl(connectionString: string) {
   const databaseUrl = new URL(connectionString);
+  const sslMode = databaseUrl.searchParams.get("ssl-mode")?.toUpperCase();
+  const requiresSsl = databaseUrl.protocol === "mysqls:" || sslMode === "REQUIRED";
 
   return {
     host: databaseUrl.hostname,
@@ -17,31 +20,90 @@ function parseDatabaseUrl(connectionString: string) {
     user: decodeURIComponent(databaseUrl.username),
     password: decodeURIComponent(databaseUrl.password),
     database: databaseUrl.pathname.replace(/^\//, ""),
-    ssl:
-      databaseUrl.protocol === "mysqls:"
-        ? { rejectUnauthorized: false }
-        : undefined,
+    ssl: requiresSsl ? { rejectUnauthorized: false } : undefined,
   };
 }
 
 export async function getDb() {
   if (db) return db;
+  if (dbInitPromise) return dbInitPromise;
 
-  if (!ENV.databaseUrl) {
-    throw new Error("DATABASE_URL missing");
-  }
+  dbInitPromise = (async () => {
+    if (!ENV.databaseUrl) {
+      throw new Error("DATABASE_URL missing");
+    }
 
-  const config = parseDatabaseUrl(ENV.databaseUrl);
+    const config = parseDatabaseUrl(ENV.databaseUrl);
 
-  pool = mysql.createPool({
-    ...config,
-    waitForConnections: true,
-    connectionLimit: 10,
+    pool = mysql.createPool({
+      ...config,
+      waitForConnections: true,
+      connectionLimit: 10,
+    });
+
+    db = drizzle(pool);
+    await ensureCoreSchema(pool, config.database);
+    return db;
+  })().catch((error) => {
+    dbInitPromise = undefined;
+    throw error;
   });
 
-  db = drizzle(pool);
+  return dbInitPromise;
+}
 
-  return db;
+async function ensureCoreSchema(connection: Pool, databaseName: string) {
+  await connection.execute(`
+    CREATE TABLE IF NOT EXISTS \`users\` (
+      \`id\` int AUTO_INCREMENT NOT NULL,
+      \`openId\` varchar(64) NOT NULL,
+      \`name\` text,
+      \`email\` varchar(320),
+      \`loginMethod\` varchar(64),
+      \`role\` enum('user','admin') NOT NULL DEFAULT 'user',
+      \`createdAt\` timestamp NOT NULL DEFAULT (now()),
+      \`updatedAt\` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+      \`lastSignedIn\` timestamp NOT NULL DEFAULT (now()),
+      CONSTRAINT \`users_id\` PRIMARY KEY(\`id\`),
+      CONSTRAINT \`users_openId_unique\` UNIQUE(\`openId\`)
+    )
+  `);
+
+  await connection.execute(`
+    CREATE TABLE IF NOT EXISTS \`perfumes\` (
+      \`id\` int AUTO_INCREMENT NOT NULL,
+      \`name\` varchar(255) NOT NULL,
+      \`description\` text,
+      \`price\` decimal(10,2) NOT NULL,
+      \`category\` enum('women','men','unisex') NOT NULL,
+      \`type\` enum('arabic','designer') NOT NULL,
+      \`imageUrl\` text,
+      \`imageKey\` varchar(512),
+      \`inStock\` int NOT NULL DEFAULT 1,
+      \`isNewArrival\` int NOT NULL DEFAULT 0,
+      \`createdAt\` timestamp NOT NULL DEFAULT (now()),
+      \`updatedAt\` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+      CONSTRAINT \`perfumes_id\` PRIMARY KEY(\`id\`)
+    )
+  `);
+
+  const [columnRows] = await connection.query<RowDataPacket[]>(
+    `
+      SELECT 1 AS present
+      FROM information_schema.columns
+      WHERE table_schema = ?
+        AND table_name = 'perfumes'
+        AND column_name = 'isNewArrival'
+      LIMIT 1
+    `,
+    [databaseName]
+  );
+
+  if (columnRows.length === 0) {
+    await connection.execute(
+      "ALTER TABLE `perfumes` ADD COLUMN `isNewArrival` int NOT NULL DEFAULT 0"
+    );
+  }
 }
 
 function hasOwn<T extends object, K extends PropertyKey>(
@@ -121,13 +183,42 @@ type CreatePerfumeInput = Omit<InsertPerfume, "id" | "createdAt" | "updatedAt">;
 
 export async function insertPerfume(input: CreatePerfumeInput) {
   const database = await getDb();
-  const [created] = await database.insert(perfumes).values(input).$returningId();
+  if (!pool) {
+    throw new Error("Database pool is not initialized");
+  }
 
-  if (!created?.id) {
+  const [result] = await pool.execute<ResultSetHeader>(
+    `
+      INSERT INTO \`perfumes\` (
+        \`name\`,
+        \`description\`,
+        \`price\`,
+        \`category\`,
+        \`type\`,
+        \`imageUrl\`,
+        \`imageKey\`,
+        \`inStock\`,
+        \`isNewArrival\`
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `,
+    [
+      input.name,
+      input.description ?? null,
+      input.price,
+      input.category,
+      input.type,
+      input.imageUrl ?? null,
+      input.imageKey ?? null,
+      input.inStock ?? 1,
+      input.isNewArrival ?? 0,
+    ]
+  );
+
+  if (!result.insertId) {
     throw new Error("Failed to insert perfume");
   }
 
-  return created.id;
+  return result.insertId;
 }
 
 type UpdatePerfumeInput = Partial<CreatePerfumeInput>;

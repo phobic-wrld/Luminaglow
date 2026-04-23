@@ -7,7 +7,7 @@ import {
   Plus, Pencil, Trash2, X, Upload, Loader2, ShieldAlert, LogOut, Package, Eye, LockKeyhole
 } from "lucide-react";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter
+  Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter
 } from "@/components/ui/dialog";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
@@ -117,6 +117,9 @@ function PerfumeFormDialog({
           <DialogTitle className="font-serif text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
             {initial?.name ? "Edit Perfume" : "Add New Perfume"}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Create or update a perfume listing.
+          </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 py-2">
           {/* Image upload */}

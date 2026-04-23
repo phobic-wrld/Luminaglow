@@ -25,7 +25,7 @@ export function GlowAuthDialog({
   onLogin,
   onOpenChange,
   onClose,
-}: ManusDialogProps) {
+}: GlowAuthDialogProps) {
   const [internalOpen, setInternalOpen] = useState(open);
 
   useEffect(() => {
