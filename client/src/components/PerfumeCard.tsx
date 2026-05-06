@@ -7,9 +7,9 @@ interface PerfumeCardProps {
 }
 
 const categoryColors: Record<string, string> = {
-  women: "bg-pink-50 text-pink-700 border-pink-200",
-  men: "bg-blue-50 text-blue-700 border-blue-200",
-  unisex: "bg-purple-50 text-purple-700 border-purple-200",
+  women: "bg-[var(--gold)]/10 text-[var(--gold-light)] border-[var(--gold)]/30",
+  men: "bg-white/5 text-[var(--cream)] border-white/15",
+  unisex: "bg-[var(--gold-dark)]/15 text-[var(--gold-light)] border-[var(--gold)]/25",
 };
 
 const categoryLabels: Record<string, string> = {
@@ -50,25 +50,27 @@ export default function PerfumeCard({ perfume, whatsappNumber }: PerfumeCardProp
   return (
     <div
       id={`perfume-${perfume.id}`}
-      className="group bg-card rounded-lg overflow-hidden card-hover luxury-shadow border border-[var(--border)] flex flex-col scroll-mt-28"
+      className="group relative flex flex-col overflow-hidden rounded-lg border premium-border bg-card card-hover luxury-shadow scroll-mt-28 target:ring-2 target:ring-[var(--gold)] target:ring-offset-4 target:ring-offset-background"
     >
+      <div className="pointer-events-none absolute inset-x-8 top-0 z-10 h-px bg-gradient-to-r from-transparent via-[var(--gold-light)] to-transparent opacity-40 transition-opacity duration-500 group-hover:opacity-90" />
       {/* Image */}
-      <div className="relative overflow-hidden bg-[var(--muted)] aspect-[3/4]">
+      <div className="relative overflow-hidden bg-[var(--muted)] aspect-[4/5]">
         <img
           src={imageUrl}
           alt={perfume.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03] group-hover:brightness-110"
           loading="lazy"
         />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0f0a07]/72 via-transparent to-white/5 opacity-80" />
         {/* Type badge overlay */}
         <div className="absolute top-3 left-3">
           <span
             className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] tracking-[0.15em] uppercase font-sans font-medium"
             style={{
               background: perfume.type === "arabic"
-                ? "oklch(0.62 0.12 75 / 0.9)"
-                : "oklch(0.18 0.01 40 / 0.85)",
-              color: "white",
+                ? "oklch(0.70 0.13 76 / 0.86)"
+                : "oklch(0.12 0.018 42 / 0.82)",
+              color: perfume.type === "arabic" ? "#0f0a07" : "white",
               backdropFilter: "blur(4px)",
             }}
           >
@@ -85,7 +87,7 @@ export default function PerfumeCard({ perfume, whatsappNumber }: PerfumeCardProp
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-1 gap-3">
+      <div className="flex flex-1 flex-col gap-3 p-4">
         {/* Category badge */}
         <div>
           <span
@@ -97,7 +99,7 @@ export default function PerfumeCard({ perfume, whatsappNumber }: PerfumeCardProp
 
         {/* Name */}
         <h3
-          className="text-lg font-serif font-medium leading-tight text-card-foreground line-clamp-2"
+          className="text-xl font-serif font-light leading-tight text-card-foreground line-clamp-2"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
           {perfume.name}
@@ -111,7 +113,7 @@ export default function PerfumeCard({ perfume, whatsappNumber }: PerfumeCardProp
         )}
 
         {/* Price + Button */}
-        <div className="mt-auto flex items-center justify-between gap-2 pt-2 border-t border-[var(--border)]">
+        <div className="mt-auto flex items-center justify-between gap-2 border-t border-[var(--border)] pt-3">
           <span
             className="text-xl font-serif font-semibold"
             style={{ color: "var(--gold)", fontFamily: "'Cormorant Garamond', serif" }}
@@ -122,7 +124,7 @@ export default function PerfumeCard({ perfume, whatsappNumber }: PerfumeCardProp
           <button
             onClick={handleWhatsApp}
             disabled={perfume.inStock === 0}
-            className="flex items-center gap-2 px-4 py-2 rounded-full text-xs tracking-[0.1em] uppercase font-sans font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 rounded-full px-4 py-2 text-xs font-sans font-medium uppercase tracking-[0.1em] transition-all duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
             style={{
               background: perfume.inStock !== 0 ? "linear-gradient(135deg, #25D366, #128C7E)" : undefined,
               backgroundColor: perfume.inStock === 0 ? "var(--muted)" : undefined,

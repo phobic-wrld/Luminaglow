@@ -11,16 +11,16 @@ interface ProductGridProps {
 
 function SkeletonCard() {
   return (
-    <div className="bg-card rounded-lg overflow-hidden border border-[var(--border)] animate-pulse">
-      <div className="aspect-[3/4] bg-muted" />
+    <div className="overflow-hidden rounded-lg border border-[var(--border)] bg-card/80 animate-pulse">
+      <div className="aspect-[4/5] bg-white/5" />
       <div className="p-4 space-y-3">
-        <div className="h-3 w-16 bg-muted rounded-full" />
-        <div className="h-5 w-3/4 bg-muted rounded" />
-        <div className="h-3 w-full bg-muted rounded" />
-        <div className="h-3 w-2/3 bg-muted rounded" />
+        <div className="h-3 w-16 rounded-full bg-white/[0.08]" />
+        <div className="h-5 w-3/4 rounded bg-white/[0.08]" />
+        <div className="h-3 w-full rounded bg-white/[0.08]" />
+        <div className="h-3 w-2/3 rounded bg-white/[0.08]" />
         <div className="flex justify-between items-center pt-2">
-          <div className="h-6 w-16 bg-muted rounded" />
-          <div className="h-8 w-20 bg-muted rounded-full" />
+          <div className="h-6 w-16 rounded bg-white/[0.08]" />
+          <div className="h-8 w-20 rounded-full bg-white/[0.08]" />
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@ function SkeletonCard() {
 export default function ProductGrid({ perfumes, loading, whatsappNumber, emptyMessage }: ProductGridProps) {
   if (loading) {
     return (
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
         {Array.from({ length: 8 }).map((_, i) => (
           <SkeletonCard key={i} />
         ))}
@@ -56,7 +56,7 @@ export default function ProductGrid({ perfumes, loading, whatsappNumber, emptyMe
   }
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-5">
       {perfumes.map((perfume) => (
         <PerfumeCard key={perfume.id} perfume={perfume} whatsappNumber={whatsappNumber} />
       ))}

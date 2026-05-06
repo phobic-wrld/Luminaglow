@@ -41,7 +41,7 @@ export default function SearchBar({ onClose }: SearchBarProps) {
     setQuery("");
     setIsOpen(false);
     onClose?.();
-    window.location.href = `/${perfume.category}#perfume-${perfume.id}`;
+    window.location.href = `/collections/${perfume.category}#perfume-${perfume.id}`;
   };
 
   return (
@@ -54,7 +54,7 @@ export default function SearchBar({ onClose }: SearchBarProps) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => query.trim().length > 0 && setIsOpen(true)}
-          className="w-full pl-10 pr-10 py-2.5 rounded-full border border-[var(--border)] bg-white text-sm font-sans focus:outline-none focus:ring-2 focus:ring-[var(--gold)]/30 focus:border-[var(--gold)] transition-all"
+          className="w-full rounded-full border border-[var(--border)] bg-[#1a120d]/70 py-2.5 pl-10 pr-10 text-sm font-sans text-foreground shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition-all placeholder:text-muted-foreground focus:border-[var(--gold)] focus:outline-none focus:ring-2 focus:ring-[var(--gold)]/30"
         />
         {query && (
           <button
@@ -71,7 +71,7 @@ export default function SearchBar({ onClose }: SearchBarProps) {
 
       {/* Results dropdown */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg border border-[var(--border)] shadow-lg z-50 max-h-96 overflow-y-auto">
+        <div className="absolute left-0 right-0 top-full z-50 mt-2 overflow-hidden rounded-lg border border-[var(--border)] bg-[#1a120d]/95 shadow-[0_24px_70px_rgba(0,0,0,0.46)] backdrop-blur-xl">
           {isLoading ? (
             <div className="p-4 text-center text-sm text-muted-foreground">
               Searching...
@@ -86,7 +86,7 @@ export default function SearchBar({ onClose }: SearchBarProps) {
                 <button
                   key={perfume.id}
                   onClick={() => handleSelectPerfume(perfume)}
-                  className="w-full text-left px-4 py-3 hover:bg-muted transition-colors flex items-center gap-3"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-white/5"
                 >
                   {perfume.imageUrl && (
                     <img

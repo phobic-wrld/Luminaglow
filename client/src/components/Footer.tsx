@@ -38,16 +38,21 @@ export default function Footer() {
               Collections
             </h4>
             <ul className="flex flex-col gap-3">
-              {["All Perfumes", "Women", "Men", "Unisex"].map((item) => (
-                <li key={item}>
+              {[
+                { label: "All Perfumes", href: "/" },
+                { label: "Women", href: "/collections/women" },
+                { label: "Men", href: "/collections/men" },
+                { label: "Unisex", href: "/collections/unisex" },
+              ].map((item) => (
+                <li key={item.label}>
                   <a
-                    href={item === "All Perfumes" ? "/" : `/${item.toLowerCase()}`}
+                    href={item.href}
                     className="text-sm font-sans transition-colors duration-200"
                     style={{ color: "oklch(0.95 0.005 60 / 0.55)" }}
                     onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "var(--gold)")}
                     onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "oklch(0.95 0.005 60 / 0.55)")}
                   >
-                    {item}
+                    {item.label}
                   </a>
                 </li>
               ))}
