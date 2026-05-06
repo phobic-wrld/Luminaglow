@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { trpc } from "@/lib/trpc";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -34,10 +34,10 @@ export default function Home() {
   const { data: allPerfumes, isLoading } = trpc.perfumes.list.useQuery();
   const { data: newArrivals = [], isLoading: loadingNewArrivals } = trpc.perfumes.getNewArrivals.useQuery();
 
-  const filtered = (allPerfumes || []).filter((p) => {
-    const typeMatch = activeType === "all" || p.type === activeType;
-    return typeMatch;
-  });
+  const filtered = useMemo(
+    () => (allPerfumes || []).filter((p) => activeType === "all" || p.type === activeType),
+    [activeType, allPerfumes]
+  );
 
   const scrollToCollection = () => {
     document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
@@ -58,9 +58,9 @@ export default function Home() {
         }}
       >
         <div className="absolute inset-y-0 left-0 w-[62%] pointer-events-none bg-gradient-to-r from-black/48 via-black/18 to-transparent" />
-        <div className="absolute left-[44%] top-[18%] h-[36rem] w-[36rem] -translate-x-1/2 rounded-full bg-[var(--gold)]/10 blur-[110px]" />
-        <div className="absolute right-[8%] bottom-[12%] h-72 w-72 rounded-full bg-amber-700/10 blur-[90px]" />
-        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(115deg,rgba(255,255,255,0.06)_0%,transparent_18%,transparent_78%,rgba(238,171,78,0.08)_100%)] mix-blend-screen" />
+        <div className="ambient-glow absolute left-[44%] top-[18%] h-80 w-80 -translate-x-1/2 md:h-[30rem] md:w-[30rem]" />
+        <div className="ambient-glow absolute right-[8%] bottom-[12%] h-56 w-56 opacity-70" />
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(115deg,rgba(255,255,255,0.045)_0%,transparent_18%,transparent_78%,rgba(238,171,78,0.06)_100%)]" />
         <div
           className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
           style={{
@@ -144,7 +144,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row items-start gap-4">
             <button
               onClick={scrollToCollection}
-              className="rounded-full px-8 py-3.5 text-sm font-sans font-medium uppercase tracking-[0.18em] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_0_34px_rgba(217,151,56,0.28)]"
+              className="rounded-full px-8 py-3.5 text-sm font-sans font-medium uppercase tracking-[0.18em] transition-transform duration-200 hover:-translate-y-0.5"
               style={{
                 background: "linear-gradient(135deg, oklch(0.86 0.09 82), oklch(0.68 0.15 73) 46%, oklch(0.43 0.10 58))",
                 color: "#0f0a07",
@@ -154,7 +154,7 @@ export default function Home() {
             </button>
             <button
               onClick={scrollToCollection}
-              className="rounded-full border px-8 py-3.5 text-sm font-sans font-medium uppercase tracking-[0.18em] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10"
+              className="rounded-full border px-8 py-3.5 text-sm font-sans font-medium uppercase tracking-[0.18em] transition-colors duration-200 hover:bg-white/10"
               style={{ borderColor: "rgba(229,180,93,0.42)", color: "rgba(255,255,255,0.9)" }}
             >
               View All
@@ -164,7 +164,7 @@ export default function Home() {
       </section>
 
       {/* Category Banner */}
-      <section className="section-champagne section-amber-glow py-16 md:py-24">
+      <section className="section-champagne section-amber-glow content-visibility-auto py-16 md:py-24">
         <div className="container relative text-center">
           <div className="divider-gold mb-8 max-w-xs mx-auto" />
           <p className="text-xs tracking-[0.4em] uppercase font-sans font-light mb-3" style={{ color: "var(--gold)" }}>
@@ -188,17 +188,17 @@ export default function Home() {
                 <a
                   key={cat.label}
                   href={cat.href}
-                  className="group relative flex flex-col items-center overflow-hidden rounded-lg border premium-border p-8 text-center transition-all duration-500 hover:-translate-y-1 hover:border-[var(--gold)]/55"
+                  className="group relative flex flex-col items-center overflow-hidden rounded-lg border premium-border p-8 text-center transition duration-300 hover:-translate-y-1 hover:border-[var(--gold)]/55"
                   style={{
                     background:
                       "linear-gradient(145deg, oklch(0.19 0.03 52 / 0.82), oklch(0.08 0.014 42 / 0.94))",
                     boxShadow:
-                      "0 22px 70px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.08)",
+                      "0 18px 44px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08)",
                   }}
                 >
                   <span className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[var(--gold-light)] to-transparent opacity-50 transition-opacity duration-500 group-hover:opacity-100" />
-                  <span className="absolute -top-16 h-28 w-28 rounded-full bg-[var(--gold)]/14 blur-3xl transition-opacity duration-500 group-hover:opacity-90" />
-                  <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-[var(--gold)]/35 bg-[var(--gold)]/10 text-[var(--gold-light)] shadow-[0_0_30px_rgba(205,142,53,0.14)]">
+                  <span className="absolute -top-12 h-24 w-24 rounded-full bg-[var(--gold)]/10 transition-opacity duration-300 group-hover:opacity-80" />
+                  <span className="mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-[var(--gold)]/35 bg-[var(--gold)]/10 text-[var(--gold-light)] shadow-[0_0_18px_rgba(205,142,53,0.12)]">
                     <Icon className="h-5 w-5" />
                   </span>
                   <h3
@@ -217,7 +217,7 @@ export default function Home() {
 
       {/* New Arrivals Section */}
       {newArrivals.length > 0 && (
-        <section className="section-warm section-amber-glow py-16 md:py-24">
+        <section className="section-warm section-amber-glow content-visibility-auto py-16 md:py-24">
           <div className="container relative">
             <div className="text-center mb-12">
               <p className="text-xs tracking-[0.4em] uppercase font-sans font-light mb-3" style={{ color: "var(--gold)" }}>
@@ -244,7 +244,7 @@ export default function Home() {
       )}
 
       {/* Collection Section */}
-      <section id="collection" className="section-warm py-16 md:py-24">
+      <section id="collection" className="section-warm content-visibility-auto py-16 md:py-24">
         <div className="container relative">
           {/* Section header */}
           <div className="text-center mb-12">
@@ -267,7 +267,7 @@ export default function Home() {
                 <Link
                   key={cat.key}
                   href={cat.href}
-                  className="rounded-full px-4 py-2 text-xs font-sans font-medium uppercase tracking-[0.15em] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/10"
+                  className="rounded-full px-4 py-2 text-xs font-sans font-medium uppercase tracking-[0.15em] transition-colors duration-200 hover:bg-white/10"
                   style={
                     cat.key === "all"
                       ? {
@@ -288,7 +288,7 @@ export default function Home() {
                 <button
                   key={t.key}
                   onClick={() => setActiveType(t.key)}
-                  className="px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase font-sans font-medium transition-all duration-200"
+                  className="px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase font-sans font-medium transition-colors duration-200"
                   style={
                     activeType === t.key
                       ? { background: "rgba(255,255,255,0.90)", color: "#0f0a07" }
@@ -323,7 +323,7 @@ export default function Home() {
 
       {/* WhatsApp CTA Banner */}
       <section
-        className="relative overflow-hidden py-16 md:py-24"
+        className="content-visibility-auto relative overflow-hidden py-16 md:py-24"
         style={{
           background:
             "radial-gradient(circle at 50% 0%, oklch(0.62 0.15 66 / 0.18), transparent 30rem), linear-gradient(135deg, #0f0a07, #1a120d 52%, #0f0a07)",
@@ -353,7 +353,7 @@ export default function Home() {
             href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello! I'd like help choosing a perfume from Lumina Glow.")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm tracking-[0.15em] uppercase font-sans font-medium transition-all duration-300 hover:-translate-y-0.5"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full text-sm tracking-[0.15em] uppercase font-sans font-medium transition-transform duration-200 hover:-translate-y-0.5"
             style={{
               background: "linear-gradient(135deg, #25D366, #128C7E)",
               color: "white",

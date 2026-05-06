@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { trpc } from "@/lib/trpc";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -58,8 +58,9 @@ export default function CategoryPage({ category }: CategoryPageProps) {
 
   const { data: perfumes, isLoading } = trpc.perfumes.listByCategory.useQuery({ category });
 
-  const filtered = (perfumes || []).filter((p) =>
-    activeType === "all" ? true : p.type === activeType
+  const filtered = useMemo(
+    () => (perfumes || []).filter((p) => activeType === "all" || p.type === activeType),
+    [activeType, perfumes]
   );
 
   return (
@@ -79,8 +80,8 @@ export default function CategoryPage({ category }: CategoryPageProps) {
         />
         <div className="absolute inset-0" style={{ background: meta.overlay }} />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,10,7,0.18)_0%,rgba(15,10,7,0.10)_48%,rgba(15,10,7,0.92)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.055)_0%,transparent_20%,transparent_78%,rgba(232,163,70,0.075)_100%)] mix-blend-screen" />
-        <div className={`absolute ${meta.glowPosition} h-72 w-72 rounded-full bg-[var(--gold)]/18 blur-[90px] md:h-96 md:w-96`} />
+        <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.04)_0%,transparent_20%,transparent_78%,rgba(232,163,70,0.055)_100%)]" />
+        <div className={`ambient-glow absolute ${meta.glowPosition} h-64 w-64 md:h-80 md:w-80`} />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--gold-light)] to-transparent opacity-80" />
 
         <div className="container relative z-10">
@@ -120,7 +121,7 @@ export default function CategoryPage({ category }: CategoryPageProps) {
       </section>
 
       {/* Collection */}
-      <section className="py-16 md:py-24 flex-1 section-warm">
+      <section className="content-visibility-auto py-16 md:py-24 flex-1 section-warm">
         <div className="container relative">
           {/* Type filter */}
           <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
@@ -129,7 +130,7 @@ export default function CategoryPage({ category }: CategoryPageProps) {
                 <button
                   key={t.key}
                   onClick={() => setActiveType(t.key)}
-                  className="px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase font-sans font-medium transition-all duration-200"
+                  className="px-4 py-2 rounded-full text-xs tracking-[0.15em] uppercase font-sans font-medium transition-colors duration-200"
                   style={
                     activeType === t.key
                       ? { background: "rgba(255,255,255,0.90)", color: "#0f0a07" }

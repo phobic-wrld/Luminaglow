@@ -44,8 +44,8 @@ export default function About() {
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,10,7,0.82)_0%,rgba(26,18,13,0.56)_42%,rgba(15,10,7,0.18)_72%,rgba(15,10,7,0.52)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,10,7,0.10)_0%,rgba(15,10,7,0.22)_52%,#0f0a07_100%)]" />
-        <div className="absolute left-[12%] top-[18%] h-80 w-80 rounded-full bg-[var(--gold)]/18 blur-[100px] md:h-[30rem] md:w-[30rem]" />
-        <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.055)_0%,transparent_20%,transparent_78%,rgba(232,163,70,0.08)_100%)] mix-blend-screen" />
+        <div className="ambient-glow absolute left-[12%] top-[18%] h-80 w-80 md:h-[30rem] md:w-[30rem]" />
+        <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.04)_0%,transparent_20%,transparent_78%,rgba(232,163,70,0.06)_100%)]" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--gold-light)] to-transparent opacity-80" />
 
         <div className="container relative z-10">
@@ -75,14 +75,14 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section-warm section-amber-glow py-20 md:py-28">
+      <section className="section-warm section-amber-glow content-visibility-auto py-20 md:py-28">
         <div className="container relative">
           <div className="grid items-center gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-16">
             <div className="relative overflow-hidden rounded-lg border premium-border luxury-shadow">
               <img
                 src="/images/abom.jpg"
                 alt="Lumina Glow oud and luxury fragrance editorial"
-                className="aspect-[4/5] h-full w-full object-cover transition duration-700 hover:scale-[1.025]"
+                className="aspect-[4/5] h-full w-full object-cover transition-transform duration-300 hover:scale-[1.015]"
                 style={{ objectPosition: "center 44%" }}
                 loading="lazy"
                 decoding="async"
@@ -118,7 +118,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section-champagne py-20 md:py-28">
+      <section className="section-champagne content-visibility-auto py-20 md:py-28">
         <div className="container relative">
           <div className="mb-12 max-w-3xl">
             <p className="mb-4 text-xs font-sans font-light uppercase tracking-[0.46em] text-[var(--gold)]">
@@ -140,16 +140,16 @@ export default function About() {
                 return (
                   <article
                     key={item.title}
-                    className="group relative overflow-hidden rounded-lg border premium-border p-6 transition duration-500 hover:-translate-y-1 hover:border-[var(--gold)]/55"
+                    className="group relative overflow-hidden rounded-lg border premium-border p-6 transition duration-300 hover:-translate-y-1 hover:border-[var(--gold)]/55"
                     style={{
                       background:
                         "linear-gradient(145deg, oklch(0.19 0.03 52 / 0.82), oklch(0.08 0.014 42 / 0.94))",
                       boxShadow:
-                        "0 22px 70px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08)",
+                        "0 18px 44px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.08)",
                     }}
                   >
                     <span className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[var(--gold-light)] to-transparent opacity-40 transition-opacity duration-500 group-hover:opacity-100" />
-                    <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-full border border-[var(--gold)]/35 bg-[var(--gold)]/10 text-[var(--gold-light)] shadow-[0_0_30px_rgba(205,142,53,0.14)]">
+                    <span className="mb-5 flex h-11 w-11 items-center justify-center rounded-full border border-[var(--gold)]/35 bg-[var(--gold)]/10 text-[var(--gold-light)] shadow-[0_0_18px_rgba(205,142,53,0.12)]">
                       <Icon className="h-5 w-5" />
                     </span>
                     <h3 className="mb-3 text-2xl font-serif font-light text-cream">
@@ -167,7 +167,7 @@ export default function About() {
               <img
                 src="/images/abouu.jpg"
                 alt="Lumina Glow niche fragrance editorial visual"
-                className="absolute inset-0 h-full w-full object-cover transition duration-700 hover:scale-[1.02]"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-[1.015]"
                 style={{ objectPosition: "center 44%" }}
                 loading="lazy"
                 decoding="async"
@@ -197,8 +197,8 @@ export default function About() {
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,10,7,0.88)_0%,rgba(26,18,13,0.58)_42%,rgba(15,10,7,0.22)_74%,rgba(15,10,7,0.62)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(15,10,7,0.26)_0%,rgba(15,10,7,0.14)_42%,#0f0a07_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.05)_0%,transparent_24%,transparent_78%,rgba(232,163,70,0.10)_100%)] mix-blend-screen" />
-        <div className="absolute right-[12%] top-[18%] h-80 w-80 rounded-full bg-[var(--gold)]/18 blur-[100px] md:h-[28rem] md:w-[28rem]" />
+        <div className="absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.04)_0%,transparent_24%,transparent_78%,rgba(232,163,70,0.07)_100%)]" />
+        <div className="ambient-glow absolute right-[12%] top-[18%] h-80 w-80 md:h-[28rem] md:w-[28rem]" />
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--gold-light)] to-transparent opacity-75" />
 
         <div className="container relative z-10">
@@ -220,7 +220,7 @@ export default function About() {
               href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hello Lumina Glow. I'd like help discovering my signature scent.")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-sans font-medium uppercase tracking-[0.16em] transition duration-300 hover:-translate-y-0.5"
+              className="inline-flex items-center gap-3 rounded-full px-8 py-4 text-sm font-sans font-medium uppercase tracking-[0.16em] transition-transform duration-200 hover:-translate-y-0.5"
               style={{
                 background: "linear-gradient(135deg, oklch(0.86 0.09 82), oklch(0.68 0.15 73) 46%, oklch(0.43 0.10 58))",
                 color: "#0f0a07",

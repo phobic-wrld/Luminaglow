@@ -136,7 +136,8 @@
       radial-gradient(circle at 10% -10%, oklch(0.58 0.14 66 / 0.22), transparent 30rem),
       radial-gradient(circle at 88% 18%, oklch(0.42 0.11 54 / 0.18), transparent 34rem),
       linear-gradient(180deg, #0f0a07 0%, #1a120d 48%, #0f0a07 100%);
-    background-attachment: fixed;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Cormorant Garamond', 'Georgia', serif;
@@ -166,9 +167,9 @@
   .bg-gold { background-color: var(--gold); }
   .border-gold { border-color: var(--gold); }
   .gold-gradient { background: linear-gradient(135deg, oklch(0.72 0.12 75), oklch(0.50 0.10 65)); }
-  .luxury-shadow { box-shadow: 0 24px 70px oklch(0 0 0 / 0.42), 0 0 42px oklch(0.60 0.14 66 / 0.10), inset 0 1px 0 oklch(1 0 0 / 0.08); }
-  .card-hover { transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease; }
-  .card-hover:hover { transform: translateY(-4px); box-shadow: 0 28px 80px oklch(0 0 0 / 0.48), 0 0 46px oklch(0.66 0.16 68 / 0.18), inset 0 1px 0 oklch(1 0 0 / 0.10); border-color: oklch(0.76 0.12 76 / 0.55); }
+  .luxury-shadow { box-shadow: 0 18px 44px oklch(0 0 0 / 0.36), 0 0 24px oklch(0.60 0.14 66 / 0.08), inset 0 1px 0 oklch(1 0 0 / 0.07); }
+  .card-hover { transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease; }
+  .card-hover:hover { transform: translate3d(0, -3px, 0); box-shadow: 0 20px 48px oklch(0 0 0 / 0.38), 0 0 26px oklch(0.66 0.16 68 / 0.10), inset 0 1px 0 oklch(1 0 0 / 0.08); border-color: oklch(0.76 0.12 76 / 0.50); }
   .divider-gold { height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
   .section-warm {
     position: relative;
@@ -191,19 +192,52 @@
     height: 22rem;
     pointer-events: none;
     background: radial-gradient(circle at 50% 50%, oklch(0.68 0.17 66 / 0.16), transparent 62%);
-    filter: blur(10px);
   }
   .luxury-glass {
     background: linear-gradient(180deg, oklch(0.19 0.028 52 / 0.72), oklch(0.10 0.018 45 / 0.86));
     border: 1px solid oklch(0.76 0.11 76 / 0.30);
-    box-shadow: 0 24px 80px oklch(0 0 0 / 0.42), inset 0 1px 0 oklch(1 0 0 / 0.09);
-    backdrop-filter: blur(16px);
+    box-shadow: 0 18px 44px oklch(0 0 0 / 0.34), inset 0 1px 0 oklch(1 0 0 / 0.08);
+    backdrop-filter: blur(8px);
+  }
+  .ambient-glow {
+    pointer-events: none;
+    border-radius: 9999px;
+    background: radial-gradient(circle, oklch(0.70 0.16 68 / 0.16), transparent 68%);
+  }
+  .perfume-card-performance {
+    content-visibility: auto;
+    contain-intrinsic-size: 420px 620px;
+  }
+  .content-visibility-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 900px;
   }
   .premium-border {
     border-color: oklch(0.75 0.11 76 / 0.34);
   }
   .text-cream {
     color: var(--cream);
+  }
+  @media (max-width: 768px) {
+    .luxury-glass {
+      backdrop-filter: none;
+    }
+    .section-warm,
+    .section-champagne {
+      background:
+        radial-gradient(circle at 50% 0%, oklch(0.62 0.15 66 / 0.11), transparent 22rem),
+        linear-gradient(180deg, #0f0a07 0%, #1a120d 52%, #0f0a07 100%);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.001ms !important;
+    }
   }
 }
 

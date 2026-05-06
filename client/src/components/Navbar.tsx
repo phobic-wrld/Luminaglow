@@ -42,9 +42,9 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         scrolled
-          ? "border-b border-[var(--border)] bg-[#0f0a07]/82 shadow-[0_18px_50px_rgba(0,0,0,0.30)] backdrop-blur-xl"
+          ? "border-b border-[var(--border)] bg-[#0f0a07]/92 shadow-[0_12px_30px_rgba(0,0,0,0.24)] supports-[backdrop-filter]:backdrop-blur-sm"
           : "bg-transparent"
       }`}
     >
@@ -92,7 +92,7 @@ export default function Navbar() {
               <div className="hidden sm:flex items-center gap-2 animate-in fade-in duration-300">
                 <Link
                   href="/admin"
-                  className="px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider transition-all"
+                  className="px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider transition-colors"
                   style={{
                     backgroundColor: 'var(--gold)',
                     color: '#0f0a07',
@@ -112,7 +112,7 @@ export default function Navbar() {
               isOAuthEnabled && loginUrl ? (
                 <a
                   href={loginUrl}
-                  className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider transition-all animate-in fade-in duration-300"
+                  className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider transition-colors animate-in fade-in duration-200"
                   style={{
                     backgroundColor: 'var(--gold)',
                     color: '#0f0a07',
@@ -124,7 +124,7 @@ export default function Navbar() {
               ) : authProviders?.localAdminEnabled ? (
                 <Link
                   href="/admin"
-                  className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider transition-all animate-in fade-in duration-300"
+                  className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium uppercase tracking-wider transition-colors animate-in fade-in duration-200"
                   style={{
                     backgroundColor: 'var(--gold)',
                     color: '#0f0a07',
@@ -178,7 +178,7 @@ export default function Navbar() {
 
         {/* Mobile search */}
         {showSearch && (
-          <div className="md:hidden border-t border-[var(--border)] bg-[#0f0a07]/94 p-4 backdrop-blur-xl">
+          <div className="md:hidden border-t border-[var(--border)] bg-[#0f0a07]/96 p-4">
             <SearchBar onClose={() => setShowSearch(false)} />
           </div>
         )}
@@ -186,7 +186,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-t border-[var(--border)] bg-[#0f0a07]/96 py-4 backdrop-blur-xl">
+        <div className="md:hidden border-t border-[var(--border)] bg-[#0f0a07]/98 py-4">
           <nav className="container flex flex-col gap-1">
             {navLinks.map((link) => (
               <Link

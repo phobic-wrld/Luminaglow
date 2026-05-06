@@ -50,7 +50,7 @@ export default function PerfumeCard({ perfume, whatsappNumber }: PerfumeCardProp
   return (
     <div
       id={`perfume-${perfume.id}`}
-      className="group relative flex flex-col overflow-hidden rounded-lg border premium-border bg-card card-hover luxury-shadow scroll-mt-28 target:ring-2 target:ring-[var(--gold)] target:ring-offset-4 target:ring-offset-background"
+      className="group perfume-card-performance relative flex flex-col overflow-hidden rounded-lg border premium-border bg-card card-hover luxury-shadow scroll-mt-28 target:ring-2 target:ring-[var(--gold)] target:ring-offset-4 target:ring-offset-background"
     >
       <div className="pointer-events-none absolute inset-x-8 top-0 z-10 h-px bg-gradient-to-r from-transparent via-[var(--gold-light)] to-transparent opacity-40 transition-opacity duration-500 group-hover:opacity-90" />
       {/* Image */}
@@ -58,7 +58,7 @@ export default function PerfumeCard({ perfume, whatsappNumber }: PerfumeCardProp
         <img
           src={imageUrl}
           alt={perfume.name}
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03] group-hover:brightness-110"
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
           loading="lazy"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0f0a07]/72 via-transparent to-white/5 opacity-80" />
@@ -124,7 +124,7 @@ export default function PerfumeCard({ perfume, whatsappNumber }: PerfumeCardProp
           <button
             onClick={handleWhatsApp}
             disabled={perfume.inStock === 0}
-            className="flex items-center gap-2 rounded-full px-4 py-2 text-xs font-sans font-medium uppercase tracking-[0.1em] transition-all duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex items-center gap-2 rounded-full px-4 py-2 text-xs font-sans font-medium uppercase tracking-[0.1em] transition-transform duration-200 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
             style={{
               background: perfume.inStock !== 0 ? "linear-gradient(135deg, #25D366, #128C7E)" : undefined,
               backgroundColor: perfume.inStock === 0 ? "var(--muted)" : undefined,
